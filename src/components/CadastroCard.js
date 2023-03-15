@@ -1,15 +1,61 @@
 import React from 'react';
 import styled from "styled-components";
 import { Link } from "react-router-dom";
+//import { BASE_URL } from "../constants/urls";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 export default function CadastroCard() {
+
+    const [email, setEmail] = React.useState("");
+    const [senha, setSenha] = React.useState("");
+    const [nome, setNome] = React.useState("");
+    const [foto, setFoto] = React.useState("");
+    const navigate = useNavigate();
+
+    function cadastrar(e) {
+        e.preventDefault();
+        const body = { email, senha, nome, foto };
+        console.log(body);
+        const url = `https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/sign-up`;
+        axios
+        .post(url, body)
+        .then(res => navigate("/"))
+        .catch(err => alert(err.response.data.message));
+    }
+
+
     return (
         <Container>
-            <input type="text" placeholder="email" />
-            <input type="password" placeholder="senha" />
-            <input type="text" placeholder="nome" />
-            <input type="text" placeholder="foto" />
-            <button>Cadastrar</button>
+            <input 
+                type="text" 
+                placeholder="email" 
+                value={email} 
+                required
+                onChange={e => setEmail(e.target.value)}
+            />
+            <input 
+                type="password"
+                placeholder="senha"
+                value={senha}
+                required
+                onChange={e => setSenha(e.target.value)}
+            />
+            <input
+                type="text"
+                placeholder="nome"
+                value={nome}
+                required
+                onChange={e => setNome(e.target.value)}
+            />
+            <input
+                type="text"
+                placeholder="foto"
+                value={foto}
+                required
+                onChange={e => setFoto(e.target.value)}
+            />
+            <button onClick={cadastrar}>Cadastrar</button>
             <Link to={`/`}>
                 <h3>Já tem uma conta? Faça login!</h3>
             </Link>
