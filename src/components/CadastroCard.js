@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from "styled-components";
 import { Link } from "react-router-dom";
-//import { BASE_URL } from "../constants/urls";
+import { BASE_URL } from "../constants/urls";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
@@ -15,9 +15,9 @@ export default function CadastroCard() {
 
     function cadastrar(e) {
         e.preventDefault();
-        const body = { email, senha, nome, foto };
+        const body = {"email": email, "name": nome, "image": foto, "password": senha};
         console.log(body);
-        const url = `https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/sign-up`;
+        const url = `${BASE_URL}/auth/sign-up`;
         axios
         .post(url, body)
         .then(res => navigate("/"))
@@ -27,39 +27,45 @@ export default function CadastroCard() {
 
     return (
         <Container>
-            <input 
-                type="text" 
-                placeholder="email" 
-                value={email} 
-                required
-                onChange={e => setEmail(e.target.value)}
-            />
-            <input 
-                type="password"
-                placeholder="senha"
-                value={senha}
-                required
-                onChange={e => setSenha(e.target.value)}
-            />
-            <input
-                type="text"
-                placeholder="nome"
-                value={nome}
-                required
-                onChange={e => setNome(e.target.value)}
-            />
-            <input
-                type="text"
-                placeholder="foto"
-                value={foto}
-                required
-                onChange={e => setFoto(e.target.value)}
-            />
-            <button onClick={cadastrar}>Cadastrar</button>
-            <Link to={`/`}>
-                <h3>Já tem uma conta? Faça login!</h3>
-            </Link>
-            
+            <form onSubmit={cadastrar}>
+                <input 
+                    type="email" 
+                    placeholder="email" 
+                    value={email} 
+                    required
+                    onChange={e => setEmail(e.target.value)}
+                    //pattern="ˆ\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$"
+                    title="Precisa ser um email valido. Exemplo (nome@dominio.com)"
+
+                />
+                <input 
+                    type="password"
+                    placeholder="senha"
+                    value={senha}
+                    required
+                    onChange={e => setSenha(e.target.value)}
+                />
+                <input
+                    type="text"
+                    placeholder="nome"
+                    value={nome}
+                    required
+                    onChange={e => setNome(e.target.value)}
+                />
+                <input
+                    type="text"
+                    placeholder="foto"
+                    value={foto}
+                    required
+                    onChange={e => setFoto(e.target.value)}
+                    //pattern="^(?:(?:https?|ftp):\/\/)?(?:www\.)?[a-z0-9]+(?:[\-\.][a-z0-9]+)\.[a-z]{2,6}(?:\/.)?$"
+                    title="Precisa ser um link de uma imagem válido"
+                />
+                <button type="submit">Cadastrar</button>
+                <Link to={`/`}>
+                    <h3>Já tem uma conta? Faça login!</h3>
+                </Link>
+            </form>
         </Container>
     )
 }

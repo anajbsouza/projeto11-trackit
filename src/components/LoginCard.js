@@ -1,17 +1,47 @@
 import React from 'react';
 import styled from "styled-components";
 import { Link } from "react-router-dom";
+import axios from "axios";
+import { BASE_URL } from "../constants/urls";
+import { useNavigate } from "react-router-dom";
 
 export default function LoginCard() {
+    const [email, setEmail] = React.useState("");
+    const [senha, setSenha] = React.useState("");
+    const navigate = useNavigate();
+
+    function logar(e) {
+        e.preventDefault();
+        const body = {"email": email, "password": senha};
+        console.log(body);
+        const url = `${BASE_URL}/auth/login`;
+        axios
+        .post(url, body)
+        .then(res => navigate("/hoje"))
+        .catch(err => alert(err.response.data.message));
+    }
     return (
         <Container>
-            <input type="text" placeholder="email" />
-            <input type="password" placeholder="senha" />
-            <button>Entrar</button>
-            <Link to={`/cadastro`}>
-                <h3>Não tem uma conta? Cadastre-se!</h3>
-            </Link>
-            
+            <form onSubmit={logar}>
+                <input 
+                    type="email" 
+                    placeholder="email"
+                    value={email} 
+                    required
+                    onChange={e => setEmail(e.target.value)}
+                />
+                <input 
+                    type="password" 
+                    placeholder="senha" 
+                    value={senha}
+                    required
+                    onChange={e => setSenha(e.target.value)}
+                />
+                <button type="submit" onClick={logar}>Entrar</button>
+                    <Link to={`/cadastro`}>
+                        <h3>Não tem uma conta? Cadastre-se!</h3>
+                    </Link>
+            </form>
         </Container>
     )
 }

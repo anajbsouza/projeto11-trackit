@@ -6,7 +6,7 @@ export default function NavBar() {
     return (
         <Container>
             <img src={logo_simplificado} alt="logo simplificada" />
-            <Perfil />
+            <Perfil foto="https://png.pngtree.com/element_pic/00/16/06/16576181f805d1e.jpg"/>
         </Container>
     )
 }
@@ -35,7 +35,7 @@ const Perfil = styled.div`
     height: 51px;
     left: 306px;
     top: 9px;
-
-    background: white;
+    background-image: url(${props => props.foto});
+    background-size: cover;
     border-radius: 98.5px;
-`
+`;
