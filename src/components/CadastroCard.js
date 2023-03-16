@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { BASE_URL } from "../constants/urls";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { ThreeDots } from "react-loader-spinner";
 
 export default function CadastroCard() {
 
@@ -11,17 +12,28 @@ export default function CadastroCard() {
     const [senha, setSenha] = React.useState("");
     const [nome, setNome] = React.useState("");
     const [foto, setFoto] = React.useState("");
+    const [carregando, setCarregando] = React.useState(false);
+    const [usuario, setUsuario] = React.useState(false);
+    
     const navigate = useNavigate();
 
     function cadastrar(e) {
         e.preventDefault();
         const body = {"email": email, "name": nome, "image": foto, "password": senha};
+        setCarregando(true);
+        setUsuario(true);
         console.log(body);
         const url = `${BASE_URL}/auth/sign-up`;
         axios
         .post(url, body)
-        .then(res => navigate("/"))
-        .catch(err => alert(err.response.data.message));
+        .then(res => {
+            setCarregando(false);
+            navigate("/")})
+        .catch(err => {
+            alert(err.response.data.message)
+            setCarregando(false);
+            setUsuario(false);
+            });
     }
 
 
@@ -36,6 +48,8 @@ export default function CadastroCard() {
                     onChange={e => setEmail(e.target.value)}
                     //pattern="ˆ\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$"
                     title="Precisa ser um email valido. Exemplo (nome@dominio.com)"
+                    disabled={carregando}
+                    className={carregando ? "disabled" : ""}
 
                 />
                 <input 
@@ -44,6 +58,8 @@ export default function CadastroCard() {
                     value={senha}
                     required
                     onChange={e => setSenha(e.target.value)}
+                    disabled={carregando}
+                    className={carregando ? "disabled" : ""}
                 />
                 <input
                     type="text"
@@ -51,6 +67,8 @@ export default function CadastroCard() {
                     value={nome}
                     required
                     onChange={e => setNome(e.target.value)}
+                    disabled={carregando}
+                    className={carregando ? "disabled" : ""}
                 />
                 <input
                     type="text"
@@ -60,8 +78,15 @@ export default function CadastroCard() {
                     onChange={e => setFoto(e.target.value)}
                     //pattern="^(?:(?:https?|ftp):\/\/)?(?:www\.)?[a-z0-9]+(?:[\-\.][a-z0-9]+)\.[a-z]{2,6}(?:\/.)?$"
                     title="Precisa ser um link de uma imagem válido"
+                    disabled={carregando}
+                    className={carregando ? "disabled" : ""}
                 />
-                <button type="submit">Cadastrar</button>
+                {carregando ? (
+                    <button><ThreeDots type="ThreeDots" color="#FFFFFF" height={20} width={40} /></button>
+                ) : (
+                    <button type="submit" onClick={cadastrar}>Cadastrar</button>
+                    
+                )}
                 <Link to={`/`}>
                     <h3>Já tem uma conta? Faça login!</h3>
                 </Link>

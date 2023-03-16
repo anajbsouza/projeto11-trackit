@@ -2,11 +2,11 @@ import React from 'react'
 import styled from "styled-components";
 import logo_simplificado from "../imagens/logo-simplificada.svg";
 
-export default function NavBar() {
+export default function NavBar({fotoUrl}) {
     return (
         <Container>
             <img src={logo_simplificado} alt="logo simplificada" />
-            <Perfil foto="https://png.pngtree.com/element_pic/00/16/06/16576181f805d1e.jpg"/>
+            <Perfil foto={fotoUrl}/>
         </Container>
     )
 }
@@ -35,7 +35,7 @@ const Perfil = styled.div`
     height: 51px;
     left: 306px;
     top: 9px;
-    background-image: url(${props => props.foto});
+    background-image: url(${props => props.fotoUrl});
     background-size: cover;
     border-radius: 98.5px;
 `;
