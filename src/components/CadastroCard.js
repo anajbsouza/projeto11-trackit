@@ -44,6 +44,7 @@ export default function CadastroCard() {
                     type="email" 
                     placeholder="email" 
                     value={email} 
+                    data-test="email-input"
                     required
                     onChange={e => setEmail(e.target.value)}
                     //pattern="ˆ\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$"
@@ -56,6 +57,7 @@ export default function CadastroCard() {
                     type="password"
                     placeholder="senha"
                     value={senha}
+                    data-test="password-input" 
                     required
                     onChange={e => setSenha(e.target.value)}
                     disabled={carregando}
@@ -65,6 +67,7 @@ export default function CadastroCard() {
                     type="text"
                     placeholder="nome"
                     value={nome}
+                    data-test="user-name-input" 
                     required
                     onChange={e => setNome(e.target.value)}
                     disabled={carregando}
@@ -74,6 +77,7 @@ export default function CadastroCard() {
                     type="text"
                     placeholder="foto"
                     value={foto}
+                    data-test="user-image-input"
                     required
                     onChange={e => setFoto(e.target.value)}
                     //pattern="^(?:(?:https?|ftp):\/\/)?(?:www\.)?[a-z0-9]+(?:[\-\.][a-z0-9]+)\.[a-z]{2,6}(?:\/.)?$"
@@ -82,13 +86,13 @@ export default function CadastroCard() {
                     className={carregando ? "disabled" : ""}
                 />
                 {carregando ? (
-                    <button><ThreeDots type="ThreeDots" color="#FFFFFF" height={20} width={40} /></button>
+                    <button data-test="signup-btn"><ThreeDots type="ThreeDots" color="#FFFFFF" height={20} width={40} /></button>
                 ) : (
-                    <button type="submit" onClick={cadastrar}>Cadastrar</button>
+                    <button data-test="signup-btn" type="submit" onClick={cadastrar}>Cadastrar</button>
                     
                 )}
                 <Link to={`/`}>
-                    <h3>Já tem uma conta? Faça login!</h3>
+                    <h3 data-test="login-link">Já tem uma conta? Faça login!</h3>
                 </Link>
             </form>
         </Container>

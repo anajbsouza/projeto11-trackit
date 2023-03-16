@@ -42,6 +42,7 @@ export default function LoginCard() {
                     type="email" 
                     placeholder="email"
                     value={email} 
+                    data-test="email-input"
                     required
                     onChange={e => setEmail(e.target.value)}
                     disabled={carregando}
@@ -51,6 +52,7 @@ export default function LoginCard() {
                     type="password" 
                     placeholder="senha" 
                     value={senha}
+                    data-test="password-input"
                     required
                     onChange={e => setSenha(e.target.value)}
                     disabled={carregando}
@@ -59,14 +61,14 @@ export default function LoginCard() {
                     //criar estado para usuario, se tiver carregando, vai mudar de cor e ficar inalteravel
                 />
                 {carregando ? (
-                    <button><ThreeDots type="ThreeDots" color="#FFFFFF" height={20} width={40} /></button>
+                    <button data-test="login-btn"><ThreeDots type="ThreeDots" color="#FFFFFF" height={20} width={40} /></button>
                 ) : (
-                    <button type="submit" onClick={logar}>Entrar</button>
+                    <button data-test="login-btn" type="submit" onClick={logar}>Entrar</button>
                     
                 )}
                 
                 <Link to={`/cadastro`}>
-                    <h3>Não tem uma conta? Cadastre-se!</h3>
+                    <h3 data-test="signup-link">Não tem uma conta? Cadastre-se!</h3>
                 </Link>
             </form>
         </Container>
