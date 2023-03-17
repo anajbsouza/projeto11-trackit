@@ -19,6 +19,7 @@ const Container = styled.div`
     width: 375px;
     height: 70px;
     left: 0px;
+    //position: fixed;
     bottom: 0px;
     background-color: #f1f1ff;
     display: flex;

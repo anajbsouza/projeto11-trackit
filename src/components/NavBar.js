@@ -2,14 +2,24 @@ import React, { useContext } from 'react';
 import styled from 'styled-components';
 import UserContext from './UserContext';
 import logo_simplificada from '../imagens/logo-simplificada.svg';
+import { useNavigate } from 'react-router-dom';
 
 export default function NavBar() {
-    const { foto } = useContext(UserContext);
+    const {userData, setUserData} = useContext(UserContext);
+    const navigate  = useNavigate()
 
+    function deslogar (){
+        if(window.confirm("Deseja sair?")){
+            localStorage.clear();
+            setUserData({token: "", logado: false, image: "" , listaHabitos: [], listaHabitosHoje: [], habitosCompletados: [], historicoU: []})
+            navigate("/")
+            }
+        }
+    
     return (
         <Container>
             <img src={logo_simplificada} alt='logo simplificada' />
-            <Perfil src={foto} />
+            <Perfil src={userData.image} onClick={deslogar} />
         </Container>
     );
 }
@@ -36,9 +46,5 @@ const Container = styled.div`
 const Perfil = styled.div`
     width: 51px;
     height: 51px;
-    left: 306px;
-    top: 9px;
-    background-image: url(${props => props.foto});
-    background-size: cover;
     border-radius: 98.5px;
 `;

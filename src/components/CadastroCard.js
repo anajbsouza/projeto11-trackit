@@ -17,7 +17,6 @@ export default function CadastroCard() {
     const [carregando, setCarregando] = React.useState(false);
     const [usuario, setUsuario] = React.useState(false);
     const { setUser } = useContext(UserContext);
-    const [picture, setPicture] = useState(null);
     
     const navigate = useNavigate();
 
@@ -42,18 +41,6 @@ export default function CadastroCard() {
         });
     }
 
-    const handlePictureUpload = (event) => {
-        const file = event.target.files[0];
-        const reader = new FileReader();
-    
-        reader.readAsDataURL(file);
-    
-        reader.onloadend = () => {
-            setPicture(reader.result);
-            setUser((prevUser) => ({ ...prevUser, picture: reader.result }));
-        };
-    };
-
     return (
         <Container>
             <form onSubmit={cadastrar}>
@@ -64,7 +51,6 @@ export default function CadastroCard() {
                     data-test="email-input"
                     required
                     onChange={e => setEmail(e.target.value)}
-                    //pattern="ˆ\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$"
                     title="Precisa ser um email valido. Exemplo (nome@dominio.com)"
                     disabled={carregando}
                     className={carregando ? "disabled" : ""}
@@ -91,13 +77,12 @@ export default function CadastroCard() {
                     className={carregando ? "disabled" : ""}
                 />
                 <input
-                    type="text"
+                    type="url"
                     placeholder="foto"
                     value={foto}
                     data-test="user-image-input"
                     required
                     onChange={e => setFoto({url: e.target.value, loaded: false})}
-                    //pattern="^(?:(?:https?|ftp):\/\/)?(?:www\.)?[a-z0-9]+(?:[\-\.][a-z0-9]+)\.[a-z]{2,6}(?:\/.)?$"
                     title="Precisa ser um link de uma imagem válido"
                     disabled={carregando}
                     className={carregando ? "disabled" : ""}
