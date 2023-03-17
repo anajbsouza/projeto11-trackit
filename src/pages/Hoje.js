@@ -3,6 +3,7 @@ import styled from "styled-components";
 import NavBar from "../components/NavBar";
 import MeusHabitos from "../components/MeusHabitos";
 import AddHabito from "../components/AddHabito";
+import Footer from "../components/Footer";
 
 export default function Hoje() {
     return (
@@ -15,6 +16,7 @@ export default function Hoje() {
                     Você não tem nenhum hábito cadastrado ainda. Adicione um hábito para começar a trackear!
                 </Texto>
             </Container>
+        <Footer />
         </>
     )
 }
@@ -23,7 +25,7 @@ export default function Hoje() {
 const Container = styled.div`
     box-sizing: border-box;
     width: 375px;
-    height: 600px;
+    height: 530px;
     background-color: #E5E5E5;
     display: flex;
     justify-content: flex-start;

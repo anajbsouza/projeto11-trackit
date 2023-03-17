@@ -5,9 +5,9 @@ export default function MeusHabitos() {
     return (
         <Container>
             <h1>Meus Hábitos</h1>
-            <div>
+            <button>
                 <p>+</p>
-            </div>
+            </button>
         </Container>
     )
 }
@@ -20,17 +20,17 @@ const Container = styled.div`
     justify-content: space-between;
     align-items: center;
     h1 {
-            // Meus hábitos
-            width: 100%;
-            height: 29px;
-            font-size: 23px;
-            line-height: 29px;
-            color: #126BA5;
-            font-family: 'Lexend Deca';
-            font-style: normal;
-            font-weight: 400;
+        // Meus hábitos
+        width: 100%;
+        height: 29px;
+        font-size: 23px;
+        line-height: 29px;
+        color: #126BA5;
+        font-family: 'Lexend Deca';
+        font-style: normal;
+        font-weight: 400;
         }
-    div {
+    button {
         width: 40px;
         height: 35px;
         background: #52B6FF;
@@ -38,16 +38,17 @@ const Container = styled.div`
         display: flex;
         align-items: center;
         justify-content: center;
-    }
-    p {
-        width: 16px;
-        height: 34px;
-        font-family: 'Lexend Deca';
-        font-style: normal;
-        font-weight: 400;
-        font-size: 26.976px;
-        line-height: 34px;
-        text-align: center;
-        color: #FFFFFF;
+        border: none;
+        p {
+            width: 16px;
+            height: 34px;
+            font-family: 'Lexend Deca';
+            font-style: normal;
+            font-weight: 400;
+            font-size: 26.976px;
+            line-height: 34px;
+            text-align: center;
+            color: #FFFFFF;
+        }
     }
 `

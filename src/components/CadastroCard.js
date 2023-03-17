@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { useContext, useState } from 'react';
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { BASE_URL } from "../constants/urls";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { ThreeDots } from "react-loader-spinner";
+import UserContext from './UserContext';
+
 
 export default function CadastroCard() {
 
@@ -14,6 +16,8 @@ export default function CadastroCard() {
     const [foto, setFoto] = React.useState("");
     const [carregando, setCarregando] = React.useState(false);
     const [usuario, setUsuario] = React.useState(false);
+    const { setUser } = useContext(UserContext);
+    const [picture, setPicture] = useState(null);
     
     const navigate = useNavigate();
 
@@ -28,14 +32,27 @@ export default function CadastroCard() {
         .post(url, body)
         .then(res => {
             setCarregando(false);
-            navigate("/")})
+            navigate("/");
+            setFoto(""); 
+        })
         .catch(err => {
             alert(err.response.data.message)
             setCarregando(false);
             setUsuario(false);
-            });
+        });
     }
 
+    const handlePictureUpload = (event) => {
+        const file = event.target.files[0];
+        const reader = new FileReader();
+    
+        reader.readAsDataURL(file);
+    
+        reader.onloadend = () => {
+            setPicture(reader.result);
+            setUser((prevUser) => ({ ...prevUser, picture: reader.result }));
+        };
+    };
 
     return (
         <Container>
@@ -79,7 +96,7 @@ export default function CadastroCard() {
                     value={foto}
                     data-test="user-image-input"
                     required
-                    onChange={e => setFoto(e.target.value)}
+                    onChange={e => setFoto({url: e.target.value, loaded: false})}
                     //pattern="^(?:(?:https?|ftp):\/\/)?(?:www\.)?[a-z0-9]+(?:[\-\.][a-z0-9]+)\.[a-z]{2,6}(?:\/.)?$"
                     title="Precisa ser um link de uma imagem válido"
                     disabled={carregando}
