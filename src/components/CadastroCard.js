@@ -8,7 +8,7 @@ import { ThreeDots } from "react-loader-spinner";
 import UserContext from './UserContext';
 
 
-export default function CadastroCard() {
+export default function CadastroCard({setImagem, setToken}) {
 
     const [email, setEmail] = React.useState("");
     const [senha, setSenha] = React.useState("");
@@ -17,8 +17,9 @@ export default function CadastroCard() {
     const [carregando, setCarregando] = React.useState(false);
     const [usuario, setUsuario] = React.useState(false);
     const { setUser } = useContext(UserContext);
+    // const {userData, setUserData} = useContext(UserContext);
     
-    const navigate = useNavigate();
+    const navigate = useNavigate({setToken});
 
     function cadastrar(e) {
         e.preventDefault();
@@ -31,8 +32,8 @@ export default function CadastroCard() {
         .post(url, body)
         .then(res => {
             setCarregando(false);
+            setToken(res.data.token);
             navigate("/");
-            setFoto(""); 
         })
         .catch(err => {
             alert(err.response.data.message)
@@ -82,7 +83,8 @@ export default function CadastroCard() {
                     value={foto}
                     data-test="user-image-input"
                     required
-                    onChange={e => setFoto({url: e.target.value, loaded: false})}
+                    onChange={e => setFoto(e.target.value)}
+                    setImagem={foto}
                     title="Precisa ser um link de uma imagem válido"
                     disabled={carregando}
                     className={carregando ? "disabled" : ""}

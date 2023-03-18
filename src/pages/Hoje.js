@@ -1,17 +1,28 @@
 import React from 'react'
 import styled from "styled-components";
 import NavBar from "../components/NavBar";
-import MeusHabitos from "../components/MeusHabitos";
-import AddHabito from "../components/AddHabito";
 import Footer from "../components/Footer";
+import {BASE_URL} from "../constants/urls";
+import axios from 'axios';
+import { useState } from 'react';
 
-export default function Hoje() {
+export default function Hoje({token}) {
+    const [listaHabitosHoje, setListaHabitosHoje] = useState([]);
+    const config = {
+        headers: { "Authorization": `Bearer ${token}` }
+    };
+    axios
+    .get(`${BASE_URL}/habits/today`, config)
+    .then((res) => {
+        setListaHabitosHoje({...listaHabitosHoje, listaHabitosHoje: res.data})
+    })
+    .catch((err) => {
+        console.log(err.response.data.message);
+    });
     return (
         <>
         <NavBar />
             <Container>
-                <MeusHabitos />
-                <AddHabito />
                 <Texto>
                     Você não tem nenhum hábito cadastrado ainda. Adicione um hábito para começar a trackear!
                 </Texto>

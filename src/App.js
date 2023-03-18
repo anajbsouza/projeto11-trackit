@@ -8,19 +8,24 @@ import { useState } from "react";
 import UserContext from './components/UserContext'
 
 function App() {
-  const [userData, setUserData] = useState({token : "", isLogged : false, image : "" , habitsList : [], todayHabitsList : [], completedHabits: [], userHistoric : []});
+  const [token, setToken] = useState("");
+  const [logado, setLogado] = useState(false);
+  const [imagem, setImagem] = useState("");
+  const [listaHabitos, setListaHabitos] = useState([]);
+  const [listaHabitosHoje, setListaHabitosHoje] = useState([]);
+  const [habitosCompletados, setHabitosCompletados] = useState([]);
   return (
-    <UserContext.Provider value={{userData, setUserData}}>
+    // <UserContext.Provider value={{userData, setUserData}}>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Login />} />
-          <Route path="/cadastro" element={<Cadastro />} />
-          <Route path="/habitos" element={<Habitos />} />
-          <Route path="/hoje" element={<Hoje />} />
-          <Route path="/historico" element={<Historico />} />
+          <Route path="/" element={<Login setToken={setToken}/>} />
+          <Route path="/cadastro" element={<Cadastro setImagem={setImagem}/>} />
+          <Route path="/habitos" element={<Habitos token={token} setListaHabitos={setListaHabitos} imagem={imagem}/>} />
+          <Route path="/hoje" element={<Hoje token={token} setListaHabitosHoje={setListaHabitosHoje} imagem={imagem}/>} />
+          <Route path="/historico" element={<Historico token={token} imagem={imagem}/>} />
         </Routes>
       </BrowserRouter>
-    </UserContext.Provider>
+    // </UserContext.Provider>
   );
 }
 

@@ -1,51 +1,46 @@
 import axios from 'axios';
-import React from 'react'
+import React from 'react';
 import styled from "styled-components";
-
-//criar um estado para guardar o dia que o usuário clicar
-// botar os botões do dia da semana como CHECKBOX e LABEL
+import { BASE_URL } from "../constants/urls";
+import UserContext from './UserContext';
+import { useContext } from 'react';
 
 export default function AddHabito() {
+    const diasDaSemana = ["D", "S", "T", "Q", "Q", "S", "S"];
+    const [dias, setDias] = React.useState([]);
+    const [habito, setHabito] = React.useState("");
+    const { userData, setUserData } = useContext(UserContext);
 
+    const handleDiaClick = (dia) => {
+        if (dias.includes(dia)) {
+        setDias(dias.filter((d) => d !== dia));
+        } else {
+        setDias([...dias, dia]);
+        }
+    };
 
     return (
         <ContainerAdd>
-            <input type="text" placeholder="nome do hábito" />
-            <div>
-            <BotaoDia>
-                <input type="checkbox" name="dia" value="D" />
-                <p>D</p>
+        <input type="text" placeholder="nome do hábito" />
+        <div>
+        {diasDaSemana.map((dia, index) => (
+            <BotaoDia key={`${dia}-${index}`} checked={dias.includes(dia)}>
+                <input
+                type="checkbox"
+                name="dia"
+                value={dia}
+                checked={dias.includes(dia)}
+                onChange={() => handleDiaClick(dia)}
+                />
+                <p>{dia}</p>
             </BotaoDia>
-            <BotaoDia>
-                <input type="checkbox" name="dia" value="D" />
-                <p>S</p>
-            </BotaoDia>
-            <BotaoDia>
-                <input type="checkbox" name="dia" value="D" />
-                <p>T</p>
-            </BotaoDia>
-            <BotaoDia>
-                <input type="checkbox" name="dia" value="D" />
-                <p>Q</p>
-            </BotaoDia>
-            <BotaoDia>
-                <input type="checkbox" name="dia" value="D" />
-                <p>Q</p>
-            </BotaoDia>
-            <BotaoDia>
-                <input type="checkbox" name="dia" value="D" />
-                <p>S</p>
-            </BotaoDia>
-            <BotaoDia>
-                <input type="checkbox" name="dia" value="D" />
-                <p>S</p>
-            </BotaoDia>
-            </div>
-            <ContainerBotoes>
-                <BotaoCancelar><p>Cancelar</p></BotaoCancelar>
-                <BotaoSalvar><p>Salvar</p></BotaoSalvar>
-            </ContainerBotoes>
-            
+        ))}
+
+        </div>
+        <ContainerBotoes>
+            <BotaoCancelar><p>Cancelar</p></BotaoCancelar>
+            <BotaoSalvar><p>Salvar</p></BotaoSalvar>
+        </ContainerBotoes>
         </ContainerAdd>
     )
 }
@@ -63,9 +58,6 @@ const ContainerAdd = styled.div`
     div {
         display: flex;
         justify-content: flex-start;
-    }
-    button {
-        
     }
 `
 

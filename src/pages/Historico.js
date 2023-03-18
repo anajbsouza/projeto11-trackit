@@ -3,7 +3,10 @@ import styled from "styled-components";
 import NavBar from "../components/NavBar";
 import Footer from "../components/Footer";
 
-export default function Historico() {
+export default function Historico({token}) {
+    const config = {
+        headers: { "Authorization": `Bearer ${token}` }
+    };
     return (
         <>
         <NavBar />
