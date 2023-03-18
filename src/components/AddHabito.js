@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React from 'react';
+import React, {useState} from 'react';
 import styled from "styled-components";
 import { BASE_URL } from "../constants/urls";
 import UserContext from './UserContext';
@@ -7,15 +7,15 @@ import { useContext } from 'react';
 
 export default function AddHabito() {
     const diasDaSemana = ["D", "S", "T", "Q", "Q", "S", "S"];
-    const [dias, setDias] = React.useState([]);
-    const [habito, setHabito] = React.useState("");
+    const [dias, setDias] = useState([]);
+    const [habito, setHabito] = useState("");
     const { userData, setUserData } = useContext(UserContext);
 
-    const handleDiaClick = (dia) => {
-        if (dias.includes(dia)) {
-        setDias(dias.filter((d) => d !== dia));
+    const handleDiaClick = (index) => {
+        if (dias.includes(index)) {
+            setDias(dias.filter((d) => d !== index));
         } else {
-        setDias([...dias, dia]);
+            setDias([...dias, index]);
         }
     };
 
@@ -24,13 +24,13 @@ export default function AddHabito() {
         <input type="text" placeholder="nome do hábito" />
         <div>
         {diasDaSemana.map((dia, index) => (
-            <BotaoDia key={`${dia}-${index}`} checked={dias.includes(dia)}>
+            <BotaoDia key={`${dia}-${index}`} checked={dias.includes(index)}>
                 <input
                 type="checkbox"
                 name="dia"
                 value={dia}
-                checked={dias.includes(dia)}
-                onChange={() => handleDiaClick(dia)}
+                checked={dias.includes(index)}
+                onChange={() => handleDiaClick(index)}
                 />
                 <p>{dia}</p>
             </BotaoDia>
@@ -107,18 +107,8 @@ const BotaoCancelar = styled.button`
     border: none;
     display: flex;
     align-items: center;
-    justify-content: center;
-        p {
-                width: 50px;
-                height: 20px;
-                left: 274px;
-                top: 284px;
-                font-size: 16px;
-                line-height: 20px;
-                text-align: center;
-                color: #52B6FF;
-            }
 `
+
 const BotaoSalvar = styled.button`
     width: 84px;
     height: 35px;

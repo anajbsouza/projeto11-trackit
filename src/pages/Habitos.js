@@ -1,10 +1,69 @@
+// import React from 'react'
+// import styled from "styled-components";
+// import NavBar from "../components/NavBar";
+// import AddHabito from "../components/AddHabito";
+// import Footer from "../components/Footer";
+// import axios from 'axios';
+// //import UserContext from '../components/UserContext';
+// import { useContext } from 'react';
+// import { BASE_URL } from "../constants/urls";
+// import { useState } from 'react';
+
+// export default function Habitos({token}) {
+//     const [listaHabitos, setListaHabitos] = useState([]);
+//     const diasDaSemana = ["D", "S", "T", "Q", "Q", "S", "S"];
+//     const [diasSelecionados, setDiasSelecionados] = useState([]);
+//     const [nomeHabito, setNomeHabito] = useState("");
+//     const [habito, setHabito] = useState([]);
+//     const [botaoSalvar, setBotaoSalvar] = useState('Salvar');
+//     const [escondido, setEscondido] = useState(true);
+//     const [addHabito, setAddHabito] = useState(false);
+//     //const UserContext = useContext(UserContext);
+    
+//     const config = {
+//         headers: { "Authorization": `Bearer ${token}` }
+//     };
+//     axios
+//     .get(`${BASE_URL}/habits`, config)
+//     .then((res) => {
+//         setListaHabitos({...listaHabitos, listaHabitos: res.data})
+//     })
+//     .catch((err) => {
+//         console.log(err.response.data.message);
+//     });
+
+//     function adicionarHabito() {
+//         setEscondido(false);
+//         setAddHabito(true);
+//     }
+
+//     return (
+//         <>
+//         <NavBar />
+//             <Container>
+//                 <MeusHabitos>
+//                     <h1>Meus Hábitos</h1>
+//                     <button>
+//                         <p onClick={adicionarHabito}>+</p>
+//                         {adicionarHabito ? <AddHabito /> : null}
+//                     </button>
+//                 </MeusHabitos>
+//                 {/* <AddHabito /> */}
+//                 <Texto>
+//                     Você não tem nenhum hábito cadastrado ainda. Adicione um hábito para começar a trackear!
+//                 </Texto>
+//             </Container>
+//         <Footer />
+//         </>
+//     )
+// }
+
 import React from 'react'
 import styled from "styled-components";
 import NavBar from "../components/NavBar";
 import AddHabito from "../components/AddHabito";
 import Footer from "../components/Footer";
 import axios from 'axios';
-//import UserContext from '../components/UserContext';
 import { useContext } from 'react';
 import { BASE_URL } from "../constants/urls";
 import { useState } from 'react';
@@ -16,9 +75,7 @@ export default function Habitos({token}) {
     const [nomeHabito, setNomeHabito] = useState("");
     const [habito, setHabito] = useState([]);
     const [botaoSalvar, setBotaoSalvar] = useState('Salvar');
-    const [escondido, setEscondido] = useState(true);
-    const [addHabito, setAddHabito] = useState(false);
-    //const UserContext = useContext(UserContext);
+    const [showAddHabito, setShowAddHabito] = useState(false);
     
     const config = {
         headers: { "Authorization": `Bearer ${token}` }
@@ -32,32 +89,32 @@ export default function Habitos({token}) {
         console.log(err.response.data.message);
     });
 
-    function adicionarHabito() {
-        setEscondido(false);
-        setAddHabito(true);
+    function handleAddHabitoClick() {
+        setShowAddHabito(true);
     }
 
     return (
         <>
         <NavBar />
             <Container>
-                <MeusHabitos>
-                    <h1>Meus Hábitos</h1>
-                    <button>
-                        <p onClick={adicionarHabito}>+</p>
-                        {adicionarHabito ? <AddHabito /> : null}
-                    </button>
-                </MeusHabitos>
-                {/* <AddHabito /> */}
-                <Texto>
-                    Você não tem nenhum hábito cadastrado ainda. Adicione um hábito para começar a trackear!
-                </Texto>
+                <HabitosWrapper>
+                    <MeusHabitos>
+                        <h1>Meus Hábitos</h1>
+                        <button onClick={handleAddHabitoClick}>
+                            <p>+</p>
+                        </button>
+                    </MeusHabitos>
+                    {showAddHabito && <AddHabito />}
+                    <Texto>
+                        Você não tem nenhum hábito cadastrado ainda. Adicione um hábito para começar a trackear!
+                    </Texto>
+                </HabitosWrapper>
+                
             </Container>
         <Footer />
         </>
     )
 }
-
 
 const Container = styled.div`
     box-sizing: border-box;
@@ -73,6 +130,15 @@ const Container = styled.div`
         width: 180px;
         height: 180px;
     }
+`;
+
+const HabitosWrapper = styled.div`
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
 `;
 
 const Texto = styled.div`
