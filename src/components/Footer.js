@@ -7,11 +7,13 @@ import { Link } from 'react-router-dom';
 export default function Footer() {
     const percentage = 50;
     return (
-        <Container>
-            <Link to={"/habitos"}><Hs>Hábitos</Hs></Link>
-            <Link to={"/hoje"}><Hoje><CircularProgressbar value={percentage} text={`Hoje`}/></Hoje></Link>
-            <Link to={"/historico"}><Hs>Histórico</Hs></Link>
-        </Container>
+        <span data-test="menu">
+            <Container>
+                <Link to={"/habitos"} data-test="habit-link"><Hs>Hábitos</Hs></Link>
+                <Link to={"/hoje"} data-test="today-link"><Hoje><CircularProgressbar value={percentage} text={`Hoje`}/></Hoje></Link>
+                <Link to={"/historico"} data-test="history-link"><Hs>Histórico</Hs></Link>
+            </Container>
+        </span>
     )
 }
 

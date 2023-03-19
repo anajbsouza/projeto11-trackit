@@ -1,66 +1,6 @@
-// import React from 'react'
-// import styled from "styled-components";
-// import NavBar from "../components/NavBar";
-// import AddHabito from "../components/AddHabito";
-// import Footer from "../components/Footer";
-// import axios from 'axios';
-// //import UserContext from '../components/UserContext';
-// import { useContext } from 'react';
-// import { BASE_URL } from "../constants/urls";
-// import { useState } from 'react';
-
-// export default function Habitos({token}) {
-//     const [listaHabitos, setListaHabitos] = useState([]);
-//     const diasDaSemana = ["D", "S", "T", "Q", "Q", "S", "S"];
-//     const [diasSelecionados, setDiasSelecionados] = useState([]);
-//     const [nomeHabito, setNomeHabito] = useState("");
-//     const [habito, setHabito] = useState([]);
-//     const [botaoSalvar, setBotaoSalvar] = useState('Salvar');
-//     const [escondido, setEscondido] = useState(true);
-//     const [addHabito, setAddHabito] = useState(false);
-//     //const UserContext = useContext(UserContext);
-    
-//     const config = {
-//         headers: { "Authorization": `Bearer ${token}` }
-//     };
-//     axios
-//     .get(`${BASE_URL}/habits`, config)
-//     .then((res) => {
-//         setListaHabitos({...listaHabitos, listaHabitos: res.data})
-//     })
-//     .catch((err) => {
-//         console.log(err.response.data.message);
-//     });
-
-//     function adicionarHabito() {
-//         setEscondido(false);
-//         setAddHabito(true);
-//     }
-
-//     return (
-//         <>
-//         <NavBar />
-//             <Container>
-//                 <MeusHabitos>
-//                     <h1>Meus Hábitos</h1>
-//                     <button>
-//                         <p onClick={adicionarHabito}>+</p>
-//                         {adicionarHabito ? <AddHabito /> : null}
-//                     </button>
-//                 </MeusHabitos>
-//                 {/* <AddHabito /> */}
-//                 <Texto>
-//                     Você não tem nenhum hábito cadastrado ainda. Adicione um hábito para começar a trackear!
-//                 </Texto>
-//             </Container>
-//         <Footer />
-//         </>
-//     )
-// }
-
 import React from 'react'
 import styled from "styled-components";
-import NavBar from "../components/NavBar";
+import Header from "../components/Header";
 import AddHabito from "../components/AddHabito";
 import Footer from "../components/Footer";
 import axios from 'axios';
@@ -71,10 +11,6 @@ import { useState } from 'react';
 export default function Habitos({token}) {
     const [listaHabitos, setListaHabitos] = useState([]);
     const diasDaSemana = ["D", "S", "T", "Q", "Q", "S", "S"];
-    const [diasSelecionados, setDiasSelecionados] = useState([]);
-    const [nomeHabito, setNomeHabito] = useState("");
-    const [habito, setHabito] = useState([]);
-    const [botaoSalvar, setBotaoSalvar] = useState('Salvar');
     const [showAddHabito, setShowAddHabito] = useState(false);
     
     const config = {
@@ -89,22 +25,18 @@ export default function Habitos({token}) {
         console.log(err.response.data.message);
     });
 
-    function handleAddHabitoClick() {
-        setShowAddHabito(true);
-    }
-
     return (
         <>
-        <NavBar />
+        <Header />
             <Container>
                 <HabitosWrapper>
                     <MeusHabitos>
                         <h1>Meus Hábitos</h1>
-                        <button onClick={handleAddHabitoClick}>
-                            <p>+</p>
+                        <button onClick={() => {setShowAddHabito(true)}}>
+                            <p data-test="habit-create-btn">+</p>
                         </button>
                     </MeusHabitos>
-                    {showAddHabito && <AddHabito />}
+                    {showAddHabito && <AddHabito setShowAddHabito={setShowAddHabito}/>}
                     <Texto>
                         Você não tem nenhum hábito cadastrado ainda. Adicione um hábito para começar a trackear!
                     </Texto>

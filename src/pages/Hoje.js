@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from "styled-components";
-import NavBar from "../components/NavBar";
+import Header from "../components/Header";
 import Footer from "../components/Footer";
 import {BASE_URL} from "../constants/urls";
 import axios from 'axios';
@@ -21,7 +21,7 @@ export default function Hoje({token}) {
     });
     return (
         <>
-        <NavBar />
+        <Header />
             <Container>
                 <Texto>
                     Você não tem nenhum hábito cadastrado ainda. Adicione um hábito para começar a trackear!

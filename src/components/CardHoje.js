@@ -48,42 +48,30 @@ export default function AddHabito({setShowAddHabito}) {
     
 
     return (
-        <span data-test="habit-create-container">
-            <ContainerAdd>
-            <input 
-                data-test="habit-name-input"
-                type="text" 
-                placeholder="nome do hábito" 
-                value={nomeHabito}
-                required
-                onChange={e => setNomeHabito(e.target.value)}
-                {...nomeHabito ? <p>{nomeHabito}</p> : null}
-            />
-            <div>
-                {diasDaSemana.map((dia, index) => (
-                    <BotaoDia key={`${index}`} checked={dias.includes(index)}>
-                        <input
-                        data-test="habit-day" 
-                        type="checkbox"
-                        name="dia"
-                        value={dia}
-                        checked={dias.includes(index)}
-                        onChange={() => handleDiaClick(index)}
-                        />
-                        <p>{dia}</p>
-                    </BotaoDia>
-                ))}
-            </div>
-            <ContainerBotoes>
-                <BotaoCancelar onClick={() => {setShowAddHabito(false)}}>
-                    <p data-test="habit-create-cancel-btn">Cancelar</p>
-                </BotaoCancelar>
-                <BotaoSalvar onClick={() => handleSalvarClick}>
-                    <p data-test="habit-create-save-btn">Salvar</p>
-                </BotaoSalvar>
-            </ContainerBotoes>
-            </ContainerAdd>
-        </span>
+        <ContainerAdd>
+        <input 
+            type="text" 
+            placeholder="nome do hábito" 
+            value={nomeHabito}
+            required
+            onChange={e => setNomeHabito(e.target.value)}
+            {...nomeHabito ? <p>{nomeHabito}</p> : null}
+        />
+        <div>
+            {diasDaSemana.map((dia, index) => (
+                <BotaoDia key={`${index}`} checked={dias.includes(index)}>
+                    <input
+                    type="checkbox"
+                    name="dia"
+                    value={dia}
+                    checked={dias.includes(index)}
+                    onChange={() => handleDiaClick(index)}
+                    />
+                    <p>{dia}</p>
+                </BotaoDia>
+            ))}
+        </div>
+        </ContainerAdd>
     )
 }
 
@@ -133,41 +121,3 @@ const BotaoDia = styled.label`
         color: #DBDBDB;
     }
 `;
-
-
-const ContainerBotoes = styled.div`
-    display: flex;
-    justify-content: flex-end;
-    
-`
-
-const BotaoCancelar = styled.button`
-    width: 84px;
-    height: 35px;
-    background: #FFFFFF;
-    border-radius: 5px;
-    border: none;
-    display: flex;
-    align-items: center;
-`
-
-const BotaoSalvar = styled.button`
-    width: 84px;
-    height: 35px;
-    background: #52B6FF;
-    border-radius: 5px;
-    border: none;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    p {
-        width: 50px;
-        height: 20px;
-        left: 274px;
-        top: 284px;
-        font-size: 16px;
-        line-height: 20px;
-        text-align: center;
-        color: #FFFFFF;
-    }
-`

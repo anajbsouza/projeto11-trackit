@@ -10,16 +10,17 @@ export default function NavBar({foto}) {
     function deslogar (){
         if(window.confirm("Deseja sair?")){
             localStorage.clear();
-            
             navigate("/")
             }
         }
     
     return (
-        <Container>
-            <img src={logo_simplificada} alt='logo simplificada' />
-            <Perfil src={foto} onClick={deslogar} />
-        </Container>
+        <span data-test="header">
+            <Container>
+                <img src={logo_simplificada} alt='logo simplificada' />
+                <Perfil src={foto} onClick={deslogar} />
+            </Container>
+        </span>
     );
 }
 

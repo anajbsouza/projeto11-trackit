@@ -9,23 +9,27 @@ import UserContext from './components/UserContext'
 
 function App() {
   const [token, setToken] = useState("");
-  const [logado, setLogado] = useState(false);
-  const [imagem, setImagem] = useState("");
-  const [listaHabitos, setListaHabitos] = useState([]);
-  const [listaHabitosHoje, setListaHabitosHoje] = useState([]);
-  const [habitosCompletados, setHabitosCompletados] = useState([]);
+  // const [logado, setLogado] = useState(false);
+  // const [imagem, setImagem] = useState("");
+  // const [listaHabitos, setListaHabitos] = useState([]);
+  // const [listaHabitosHoje, setListaHabitosHoje] = useState([]);
+  // const [habitosCompletados, setHabitosCompletados] = useState([]);
+  const [userData, setUserData] = useState({});
+
+  //const [userData, setUserData] = useState({ token: "", isLogged: false, image: "", habitsList: [], todayHabitsList: [], completedHabits: [], userHistoric: [] });
+  
   return (
-    // <UserContext.Provider value={{userData, setUserData}}>
+    <UserContext.Provider value={{userData, setUserData}}>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Login setToken={setToken}/>} />
-          <Route path="/cadastro" element={<Cadastro setImagem={setImagem}/>} />
-          <Route path="/habitos" element={<Habitos token={token} setListaHabitos={setListaHabitos} imagem={imagem}/>} />
-          <Route path="/hoje" element={<Hoje token={token} setListaHabitosHoje={setListaHabitosHoje} imagem={imagem}/>} />
-          <Route path="/historico" element={<Historico token={token} imagem={imagem}/>} />
+          <Route path="/" element={<Login/>} />
+          <Route path="/cadastro" element={<Cadastro setToken={setToken}/>} />
+          <Route path="/habitos" element={<Habitos token={token}/>} />
+          <Route path="/hoje" element={<Hoje token={token}/>} />
+          <Route path="/historico" element={<Historico token={token}/>} />
         </Routes>
       </BrowserRouter>
-    // </UserContext.Provider>
+    </UserContext.Provider>
   );
 }
 

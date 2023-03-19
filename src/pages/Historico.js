@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from "styled-components";
-import NavBar from "../components/NavBar";
+import Header from "../components/Header";
 import Footer from "../components/Footer";
 
 export default function Historico({token}) {
@@ -9,7 +9,7 @@ export default function Historico({token}) {
     };
     return (
         <>
-        <NavBar />
+        <Header />
             <Container>
                 <Texto>
                     <h1>Histórico</h1>
