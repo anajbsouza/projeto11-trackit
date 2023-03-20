@@ -1,15 +1,19 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import styled from 'styled-components';
-import UserContext from './UserContext';
 import logo_simplificada from '../imagens/logo-simplificada.svg';
 import { useNavigate } from 'react-router-dom';
+import UserContext from '../Context/UserContext';
+import { useContext } from 'react';
+import { useState } from 'react';
 
-export default function NavBar({foto}) {
+export default function Header() {
+    const {userData, setUserData} = useContext(UserContext);
     const navigate  = useNavigate()
 
-    function deslogar (){
+    function deslogar(){
         if(window.confirm("Deseja sair?")){
             localStorage.clear();
+            const [userData, setUserData] = useState({ listaHabitos: [], listaHoje: [], HabitosCompletados: [], token: "", image: "" });
             navigate("/")
             }
         }
@@ -18,7 +22,7 @@ export default function NavBar({foto}) {
         <span data-test="header">
             <Container>
                 <img src={logo_simplificada} alt='logo simplificada' />
-                <Perfil src={foto} onClick={deslogar} />
+                <Perfil src={userData.image} onClick={deslogar} />
             </Container>
         </span>
     );

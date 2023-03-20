@@ -4,21 +4,23 @@ import Header from "../components/Header";
 import Footer from "../components/Footer";
 import {BASE_URL} from "../constants/urls";
 import axios from 'axios';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 export default function Hoje({token}) {
     const [listaHabitosHoje, setListaHabitosHoje] = useState([]);
-    const config = {
-        headers: { "Authorization": `Bearer ${token}` }
-    };
-    axios
-    .get(`${BASE_URL}/habits/today`, config)
-    .then((res) => {
-        setListaHabitosHoje({...listaHabitosHoje, listaHabitosHoje: res.data})
-    })
-    .catch((err) => {
-        console.log(err.response.data.message);
-    });
+    useEffect(() => {
+        const config = {
+            headers: { "Authorization": `Bearer ${token}` }
+        };
+        axios
+        .get(`${BASE_URL}/habits/today`, config)
+        .then((res) => {
+            setListaHabitosHoje({...listaHabitosHoje, listaHabitosHoje: res.data})
+        })
+        .catch((err) => {
+            console.log(err.response.data.message);
+        });
+    }, []);
     return (
         <>
         <Header />

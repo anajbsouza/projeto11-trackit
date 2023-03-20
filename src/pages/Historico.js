@@ -2,11 +2,24 @@ import React from 'react'
 import styled from "styled-components";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
+import {BASE_URL} from "../constants/urls";
+import axios from 'axios';
+import { useState, useEffect } from 'react';
 
 export default function Historico({token}) {
-    const config = {
-        headers: { "Authorization": `Bearer ${token}` }
-    };
+    useEffect(() => {
+        const config = {
+            headers: { "Authorization": `Bearer ${token}` }
+        };
+        axios
+        .get(`${BASE_URL}/history/daily`, config)
+        .then((res) => {
+            console.log(res.data);
+        })
+        .catch((err) => {
+            console.log(err.response.data.message);
+        });
+    }, []);
     return (
         <>
         <Header />

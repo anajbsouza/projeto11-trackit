@@ -4,27 +4,31 @@ import Header from "../components/Header";
 import AddHabito from "../components/AddHabito";
 import Footer from "../components/Footer";
 import axios from 'axios';
-import { useContext } from 'react';
 import { BASE_URL } from "../constants/urls";
 import { useState } from 'react';
+import { useEffect } from 'react';
+import Trash from "../imagens/trash-outline.svg";
 
 export default function Habitos({token}) {
     const [listaHabitos, setListaHabitos] = useState([]);
     const diasDaSemana = ["D", "S", "T", "Q", "Q", "S", "S"];
     const [showAddHabito, setShowAddHabito] = useState(false);
     
-    const config = {
-        headers: { "Authorization": `Bearer ${token}` }
-    };
-    axios
-    .get(`${BASE_URL}/habits`, config)
-    .then((res) => {
-        setListaHabitos({...listaHabitos, listaHabitos: res.data})
-    })
-    .catch((err) => {
-        console.log(err.response.data.message);
-    });
 
+    useEffect(() => {
+        const config = {
+            headers: { "Authorization": `Bearer ${token}` }
+        };
+        axios
+        .get(`${BASE_URL}/habits`, config)
+        .then((res) => {
+            setListaHabitos(res.data)
+        })
+        .catch((err) => {
+            console.log(err.response.data.message);
+        });
+    }, [token]);
+    
     return (
         <>
         <Header />
@@ -37,9 +41,34 @@ export default function Habitos({token}) {
                         </button>
                     </MeusHabitos>
                     {showAddHabito && <AddHabito setShowAddHabito={setShowAddHabito}/>}
-                    <Texto>
-                        Você não tem nenhum hábito cadastrado ainda. Adicione um hábito para começar a trackear!
-                    </Texto>
+                    {listaHabitos.length === 0 ? (
+                        <Texto>
+                            Você não tem nenhum hábito cadastrado ainda. Adicione um hábito para começar a trackear!
+                        </Texto>
+                    ) : (
+                        <HabitosList>
+                            {listaHabitos.map((habito) => (
+                                <Habito key={habito.id}>
+                                    <div>
+                                        <Titulo>{habito.name}</Titulo>
+                                        <Dias>
+                                            {diasDaSemana.map((dia, index) => (
+                                                <Dia
+                                                    key={index}
+                                                    habitId={habito.id}
+                                                    weekday={index}
+                                                    done={habito.doneDays.includes(index)}
+                                                >
+                                                    {dia}
+                                                </Dia>
+                                            ))}
+                                        </Dias>
+                                    </div>
+                                    <TrashIcon />
+                                </Habito>
+                            ))}
+                        </HabitosList>
+                    )}
                 </HabitosWrapper>
                 
             </Container>
@@ -123,4 +152,75 @@ const MeusHabitos = styled.div`
             color: #FFFFFF;
         }
     }
+`
+
+const HabitosList = styled.ul`
+    width: 340px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+`
+
+const Habito = styled.li`
+    width: 100%;
+    height: 94px;
+    background: #FFFFFF;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 13px 18px;
+    div {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: flex-start;
+    }
+`
+
+const Titulo = styled.p`
+    width: 100%;
+    height: 17px;
+    font-family: 'Lexend Deca';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 25px;
+    color: #666666;
+`
+
+const Dias = styled.div`
+    width: 100%;
+    height: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+`
+
+const Dia = styled.div`
+    width: 30px;
+    height: 30px;
+    border-radius: 5px;
+    background: ${props => props.done ? "#8FC549" : "#EBEBEB"};
+    color: ${props => props.done ? "#FFFFFF" : "#DBDBDB"}; 
+    font-family: 'Lexend Deca';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 25px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+`
+
+const TrashIcon = styled(Trash)`
+    width: 13px;
+    height: 15px;
+    color: #666666;
 `

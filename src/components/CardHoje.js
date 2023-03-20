@@ -1,79 +1,60 @@
 import axios from 'axios';
-import React, {useState} from 'react';
+import React, { useState, useContext } from 'react';
 import styled from "styled-components";
-import { BASE_URL } from "../constants/urls";
 import UserContext from './UserContext';
-import { useContext } from 'react';
-import Loading from './Loading';
+import { BASE_URL } from "../constants/urls";
 
-export default function AddHabito({setShowAddHabito}) {
-    const diasDaSemana = ["D", "S", "T", "Q", "Q", "S", "S"];
-    const [dias, setDias] = useState([]);
-    const [habito, setHabito] = useState("");
-    const [listaHabitos, setListaHabitos] = useState([]);
-    const [nomeHabito, setNomeHabito] = useState("");
+export default function HabitItem({ habit }) {
     const { userData } = useContext(UserContext);
+    const [confirmDelete, setConfirmDelete] = useState(false);
 
-    const config = {
+    const handleDeleteHabit = () => {
+    axios
+        .delete(`${BASE_URL}/habits/${habit.id}`, {
         headers: {
             Authorization: `Bearer ${userData.token}`,
-        }
-    }
-    
-    const handleDiaClick = (index) => {
-        if (dias.includes(index)) {
-            setDias(dias.filter((d) => d !== index));
-        } else {
-            setDias([...dias, index]);
-        }
+        },
+        })
+        .then(() => {
+        // Refresh the list of habits after deleting the habit
+        })
+        .catch((error) => {
+        console.error(error);
+        });
     };
-    
-
-    const handleSalvarClick = () => {
-        axios
-            .post(`${BASE_URL}/habits`, {
-                nome: nomeHabito,
-                dias: dias.map((dia) => diasDaSemana[dia]),
-            }, config)
-            .then(() => {
-                setListaHabitos([...listaHabitos, habito]);
-                setHabito("");
-                setNomeHabito("");
-                setDias([]);
-            })
-            .catch((err) => {
-                console.log(err);
-            });
-    };
-    
 
     return (
-        <ContainerAdd>
-        <input 
-            type="text" 
-            placeholder="nome do hábito" 
-            value={nomeHabito}
-            required
-            onChange={e => setNomeHabito(e.target.value)}
-            {...nomeHabito ? <p>{nomeHabito}</p> : null}
-        />
-        <div>
-            {diasDaSemana.map((dia, index) => (
-                <BotaoDia key={`${index}`} checked={dias.includes(index)}>
-                    <input
-                    type="checkbox"
-                    name="dia"
-                    value={dia}
-                    checked={dias.includes(index)}
-                    onChange={() => handleDiaClick(index)}
-                    />
-                    <p>{dia}</p>
-                </BotaoDia>
-            ))}
-        </div>
-        </ContainerAdd>
-    )
-}
+    <HabitItemContainer>
+        <HabitName>{habit.name}</HabitName>
+        <DaysContainer>
+        {habit.days.map((day, index) => (
+            <Day key={`${index}`} checked={day}>
+            {day[0]}
+            </Day>
+        ))}
+        </DaysContainer>
+        <DeleteButton onClick={() => setConfirmDelete(true)}>
+        Deletar
+        </DeleteButton>
+        {confirmDelete && (
+        <ConfirmDeleteContainer>
+            <ConfirmDeleteMessage>
+            Deseja deletar o hábito {habit.name}?
+            </ConfirmDeleteMessage>
+            <ConfirmDeleteButtonsContainer>
+            <ConfirmDeleteButton onClick={() => setConfirmDelete(false)}>
+                Cancelar
+            </ConfirmDeleteButton>
+            <ConfirmDeleteButton onClick={handleDeleteHabit}>
+                Deletar
+            </ConfirmDeleteButton>
+            </ConfirmDeleteButtonsContainer>
+        </ConfirmDeleteContainer>
+        )}
+    </HabitItemContainer>
+    );
+}  
+
 
 const ContainerAdd = styled.div`
     box-sizing: border-box;

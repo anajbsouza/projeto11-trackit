@@ -7,7 +7,7 @@ import { BASE_URL } from "../constants/urls";
 import { useNavigate } from "react-router-dom";
 import { ThreeDots } from "react-loader-spinner";
 
-export default function Login() {
+export default function Login({setToken}) {
     const [email, setEmail] = React.useState("");
     const [senha, setSenha] = React.useState("");
     const [carregando, setCarregando] = React.useState(false);
@@ -25,6 +25,7 @@ export default function Login() {
         .post(url, body)
         .then(res => {
             setCarregando(false);
+            setToken(res.data.token);
             navigate("/hoje")})
         .catch(err => {
             alert(err.response.data.message)
@@ -61,7 +62,11 @@ export default function Login() {
                         //criar estado para usuario, se tiver carregando, vai mudar de cor e ficar inalteravel
                     />
                     {carregando ? (
-                        <button data-test="login-btn"><ThreeDots type="ThreeDots" color="#FFFFFF" height={20} width={40} /></button>
+                        <button 
+                            data-test="login-btn"
+                            disabled={carregando}>
+                            <ThreeDots type="ThreeDots" color="#FFFFFF" height={20} width={40} />
+                        </button>
                     ) : (
                         <button data-test="login-btn" type="submit" onClick={logar}>Entrar</button>
                         

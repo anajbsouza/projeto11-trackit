@@ -4,8 +4,8 @@ import { CircularProgressbar } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
 import { Link } from 'react-router-dom';
 
-export default function Footer() {
-    const percentage = 50;
+export default function Footer({listaHabitosHoje}) {
+    const percentage = listaHabitosHoje/100;
     return (
         <span data-test="menu">
             <Container>

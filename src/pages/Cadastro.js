@@ -5,7 +5,7 @@ import { BASE_URL } from "../constants/urls";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { ThreeDots } from "react-loader-spinner";
-import UserContext from '../components/UserContext';
+import UserContext from '../Context/UserContext';
 import logo_completa from "../imagens/logo-completa.svg";
 
 export default function Cadastro({setToken}) {
@@ -30,7 +30,6 @@ export default function Cadastro({setToken}) {
         .post(url, body)
         .then(res => {
             setCarregando(false);
-            setToken(res.data.token);
             navigate("/");
         })
         .catch(err => {
@@ -91,7 +90,11 @@ export default function Cadastro({setToken}) {
                         className={carregando ? "disabled" : ""}
                     />
                     {carregando ? (
-                        <button data-test="signup-btn"><ThreeDots type="ThreeDots" color="#FFFFFF" height={20} width={40} /></button>
+                        <button 
+                            data-test="signup-btn"
+                            disabled={carregando}>
+                            <ThreeDots type="ThreeDots" color="#FFFFFF" height={20} width={40} />
+                        </button>
                     ) : (
                         <button data-test="signup-btn" type="submit" onClick={cadastrar}>Cadastrar</button>
                         
