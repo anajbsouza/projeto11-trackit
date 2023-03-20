@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import styled from "styled-components";
 import logo_completa from "../imagens/logo-completa.svg";
 import { Link } from "react-router-dom";
@@ -8,10 +8,10 @@ import { useNavigate } from "react-router-dom";
 import { ThreeDots } from "react-loader-spinner";
 
 export default function Login({setToken}) {
-    const [email, setEmail] = React.useState("");
-    const [senha, setSenha] = React.useState("");
-    const [carregando, setCarregando] = React.useState(false);
-    const [usuario, setUsuario] = React.useState(false);
+    const [email, setEmail] = useState("");
+    const [senha, setSenha] = useState("");
+    const [carregando, setCarregando] = useState(false);
+    const [usuario, setUsuario] = useState(false);
     const navigate = useNavigate();
 
     function logar(e) {
@@ -26,6 +26,7 @@ export default function Login({setToken}) {
         .then(res => {
             setCarregando(false);
             setToken(res.data.token);
+            console.log(res.data.token)
             navigate("/hoje")})
         .catch(err => {
             alert(err.response.data.message)

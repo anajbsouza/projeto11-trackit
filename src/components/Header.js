@@ -10,19 +10,19 @@ export default function Header() {
     const {userData, setUserData} = useContext(UserContext);
     const navigate  = useNavigate()
 
-    function deslogar(){
-        if(window.confirm("Deseja sair?")){
-            localStorage.clear();
-            const [userData, setUserData] = useState({ listaHabitos: [], listaHoje: [], HabitosCompletados: [], token: "", image: "" });
-            navigate("/")
-            }
-        }
+    // function deslogar(){
+    //     if(window.confirm("Deseja sair?")){
+    //         localStorage.clear();
+    //         const [userData, setUserData] = useState({ listaHabitos: [], listaHoje: [], HabitosCompletados: [], token: "", image: "" });
+    //         navigate("/")
+    //         }
+    //     }
     
     return (
         <span data-test="header">
             <Container>
                 <img src={logo_simplificada} alt='logo simplificada' />
-                <Perfil src={userData.image} onClick={deslogar} />
+                <Perfil src={userData.image} />
             </Container>
         </span>
     );

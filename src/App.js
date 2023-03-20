@@ -12,6 +12,7 @@ function App() {
     const [userData, setUserData] = useState({});
     
     return (
+        <UserContext.Provider value={{token, setToken}}>
         <UserContext.Provider value={{userData, setUserData}}>
         <BrowserRouter>
             <Routes>
@@ -22,6 +23,7 @@ function App() {
             <Route path="/historico" element={<Historico token={token}/>} />
             </Routes>
         </BrowserRouter>
+        </UserContext.Provider>
         </UserContext.Provider>
     );
 }

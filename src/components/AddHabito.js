@@ -12,12 +12,6 @@ export default function AddHabito({ setShowAddHabito, setHabitos }) {
     const [nomeHabito, setNomeHabito] = useState('');
     const { userData } = useContext(UserContext);
 
-    const config = {
-        headers: {
-        Authorization: `Bearer ${userData.token}`,
-        },
-    };
-
     const handleDiaClick = (index) => {
         if (dias.includes(index)) {
         setDias(dias.filter((d) => d !== index));
